@@ -10,22 +10,21 @@ def health_check():
     return {"status": "ok"}
 
 
-@app.get("/players")
-def get_players():
-
+@app.get("/team-metrics")
+def get_team_metrics():
     with engine.connect() as conn:
-
         result = conn.execute(
-            text("SELECT * FROM players")
+            text("SELECT * FROM team_metrics")
         )
 
-        players = []
+        metrics = []
 
         for row in result:
-            players.append({
+            metrics.append({
                 "id": row.id,
-                "name": row.name,
-                "position": row.position
+                "metric_name": row.metric_name,
+                "metric_value": float(row.metric_value),
+                "updated_at": row.updated_at
             })
 
-        return players
+        return metrics
