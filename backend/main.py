@@ -31,27 +31,51 @@ def get_team_metrics():
 
 @app.get("/alerts")
 def get_alerts():
-
     alerts = []
 
     with engine.connect() as conn:
-
-        result = conn.execute(
+        metrics_result = conn.execute(
             text("SELECT * FROM team_metrics")
         )
 
-        for row in result:
+        rules_result = conn.execute(
+            text("SELECT * FROM alert_rules")
+        )
 
-            if row.metric_name == "bullpen_era" and row.metric_value > 4.50:
-                alerts.append({
-                    "severity": "Critical",
-                    "message": "Bullpen ERA exceeded threshold"
-                })
+        metrics = {}
 
-            if row.metric_name == "team_ops" and row.metric_value < 0.70:
+        for row in metrics_result:
+            metrics[row.metric_name] = float(row.metric_value)
+
+        for rule in rules_result:
+            metric_name = rule.metric_name
+            operator = rule.operator
+            threshold = float(rule.threshold)
+            severity = rule.severity
+
+            if metric_name not in metrics:
+                continue
+
+            value = metrics[metric_name]
+            is_alert = False
+
+            if operator == ">" and value > threshold:
+                is_alert = True
+            elif operator == "<" and value < threshold:
+                is_alert = True
+            elif operator == ">=" and value >= threshold:
+                is_alert = True
+            elif operator == "<=" and value <= threshold:
+                is_alert = True
+
+            if is_alert:
                 alerts.append({
-                    "severity": "Warning",
-                    "message": "Team OPS below threshold"
+                    "metric_name": metric_name,
+                    "metric_value": value,
+                    "operator": operator,
+                    "threshold": threshold,
+                    "severity": severity,
+                    "message": f"{metric_name} {operator} {threshold}"
                 })
 
     return alerts
