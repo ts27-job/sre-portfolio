@@ -119,3 +119,26 @@ def get_team_health():
         health["overall"] = "Warning"
 
     return health
+
+@app.get("/alert-rules")
+def get_alert_rules():
+
+    with engine.connect() as conn:
+
+        result = conn.execute(
+            text("SELECT * FROM alert_rules")
+        )
+
+        rules = []
+
+        for row in result:
+
+            rules.append({
+                "id": row.id,
+                "metric_name": row.metric_name,
+                "operator": row.operator,
+                "threshold": float(row.threshold),
+                "severity": row.severity
+            })
+
+        return rules
