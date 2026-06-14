@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 from database import engine
+from alert_logic import evaluate_rule
 
 app = FastAPI()
 
@@ -57,18 +58,8 @@ def get_alerts():
                 continue
 
             value = metrics[metric_name]
-            is_alert = False
 
-            if operator == ">" and value > threshold:
-                is_alert = True
-            elif operator == "<" and value < threshold:
-                is_alert = True
-            elif operator == ">=" and value >= threshold:
-                is_alert = True
-            elif operator == "<=" and value <= threshold:
-                is_alert = True
-
-            if is_alert:
+            if evaluate_rule(value, operator, threshold):
                 alerts.append({
                     "metric_name": metric_name,
                     "metric_value": value,
