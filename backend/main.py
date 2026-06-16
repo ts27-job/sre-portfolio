@@ -58,16 +58,34 @@ def get_alerts():
                 continue
 
             value = metrics[metric_name]
+            message = f"{metric_name} {operator} {threshold}"
 
             if evaluate_rule(value, operator, threshold):
+                conn.execute(
+                    text("""
+                        INSERT INTO alert_history
+                        (metric_name, metric_value, severity, message, detected_at)
+                        VALUES
+                        (:metric_name, :metric_value, :severity, :message, NOW())
+                    """),
+                    {
+                        "metric_name": metric_name,
+                        "metric_value": value,
+                        "severity": severity,
+                        "message": message
+                    }
+                )
+
                 alerts.append({
                     "metric_name": metric_name,
                     "metric_value": value,
                     "operator": operator,
                     "threshold": threshold,
                     "severity": severity,
-                    "message": f"{metric_name} {operator} {threshold}"
+                    "message": message
                 })
+
+        conn.commit()
 
     return alerts
 
