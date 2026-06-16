@@ -133,3 +133,27 @@ def get_alert_rules():
             })
 
         return rules
+
+@app.get("/alert-history")
+def get_alert_history():
+
+    with engine.connect() as conn:
+
+        result = conn.execute(
+            text("SELECT * FROM alert_history")
+        )
+
+        alert_history = []
+
+        for row in result:
+
+            alert_history.append({
+                "id": row.id,
+                "metric_name": row.metric_name,
+                "metric_value": float(row.metric_value),
+                "severity": row.severity,
+                "message": row.message,
+                "detected_at": row.detected_at
+            })
+
+        return alert_history
