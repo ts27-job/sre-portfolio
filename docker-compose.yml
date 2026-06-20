@@ -1,0 +1,22 @@
+services:
+
+  mysql:
+    image: mysql:9.7
+    container_name: giants-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Destino0527
+      MYSQL_DATABASE: giants_sre_dashboard
+
+    ports:
+      - "3306:3306"
+
+  backend:
+    build: ./backend
+    container_name: giants-backend
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - mysql
