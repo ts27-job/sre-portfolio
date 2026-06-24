@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: giants-backend
+  namespace: giants-sre
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: giants-backend
+  template:
+    metadata:
+      labels:
+        app: giants-backend
+    spec:
+      containers:
+        - name: giants-backend
+          image: giants-sre-dashboard:latest
+          ports:
+            - containerPort: 8000
