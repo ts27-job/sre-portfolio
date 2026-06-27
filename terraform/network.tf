@@ -13,7 +13,9 @@ resource "aws_subnet" "public_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "sre-portfolio-public-subnet-1"
+    Name                                      = "sre-portfolio-public-subnet-1"
+    "kubernetes.io/role/elb"                  = "1"
+    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
   }
 }
 
@@ -24,7 +26,9 @@ resource "aws_subnet" "public_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "sre-portfolio-public-subnet-2"
+    Name                                      = "sre-portfolio-public-subnet-2"
+    "kubernetes.io/role/elb"                  = "1"
+    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
   }
 }
 
@@ -66,7 +70,9 @@ resource "aws_subnet" "private_1" {
   availability_zone = "ap-northeast-1a"
 
   tags = {
-    Name = "sre-portfolio-private-subnet-1"
+    Name                                      = "sre-portfolio-private-subnet-1"
+    "kubernetes.io/role/internal-elb"         = "1"
+    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
   }
 }
 
@@ -76,7 +82,9 @@ resource "aws_subnet" "private_2" {
   availability_zone = "ap-northeast-1c"
 
   tags = {
-    Name = "sre-portfolio-private-subnet-2"
+    Name                                      = "sre-portfolio-private-subnet-2"
+    "kubernetes.io/role/internal-elb"         = "1"
+    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
   }
 }
 
