@@ -17,6 +17,12 @@ services:
   backend:
     build: ./backend
     container_name: giants-backend
+    environment:
+      DB_USER: root
+      DB_PASSWORD: Destino0527
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: giants_sre_dashboard
 
     ports:
       - "8000:8000"
