@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sre-portfolio-ingress
+  namespace: giants-sre
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: giants-backend-service
+                port:
+                  number: 80
+          - path: /team-metrics
+            pathType: Prefix
+            backend:
+              service:
+                name: giants-backend-service
+                port:
+                  number: 80
+          - path: /alerts
+            pathType: Prefix
+            backend:
+              service:
+                name: giants-backend-service
+                port:
+                  number: 80
+          - path: /alert-rules
+            pathType: Prefix
+            backend:
+              service:
+                name: giants-backend-service
+                port:
+                  number: 80
+          - path: /alert-history
+            pathType: Prefix
+            backend:
+              service:
+                name: giants-backend-service
+                port:
+                  number: 80
