@@ -10,7 +10,7 @@ resource "aws_security_group" "rds" {
     protocol    = "tcp"
 
     security_groups = [
-      aws_security_group.app_sg.id
+      aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
     ]
   }
 

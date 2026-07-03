@@ -1,4 +1,4 @@
-USE giants_sre_dashboard;
+USE giants_sre;
 
 CREATE TABLE team_metrics (
     id INT PRIMARY KEY AUTO_INCREMENT,

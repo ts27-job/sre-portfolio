@@ -4,6 +4,6 @@ metadata:
   name: giants-backend-config
   namespace: giants-sre
 data:
-  DB_HOST: mysql
+  DB_HOST: sre-portfolio-mysql.cjw2iq2u4bst.ap-northeast-1.rds.amazonaws.com
   DB_PORT: "3306"
-  DB_NAME: giants_sre_dashboard
+  DB_NAME: giants_sre
