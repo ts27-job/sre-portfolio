@@ -2,9 +2,16 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from database import engine
 from alert_logic import evaluate_rule
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health_check():
@@ -82,7 +89,9 @@ def get_alerts():
                     "operator": operator,
                     "threshold": threshold,
                     "severity": severity,
-                    "message": message
+                    "message": message,
+                    "status": "Triggered",
+                    "is_triggered": True
                 })
 
         conn.commit()
