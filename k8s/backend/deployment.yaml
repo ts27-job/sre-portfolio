@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: giants-backend
-          image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-sre-dashboard:latest
+          image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-sre-backend:latest
           ports:
             - containerPort: 8000
           env:

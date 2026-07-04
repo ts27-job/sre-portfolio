@@ -1,13 +1,11 @@
-resource "aws_ecr_repository" "app" {
-  name = "giants-sre-dashboard"
+resource "aws_ecr_repository" "backend" {
+  name = "giants-sre-backend"
 
   image_scanning_configuration {
     scan_on_push = true
   }
 
-  tags = {
-    Name = "giants-sre-dashboard"
-  }
+  image_tag_mutability = "MUTABLE"
 }
 
 resource "aws_ecr_repository" "frontend" {
