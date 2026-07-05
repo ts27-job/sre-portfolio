@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: giants-frontend
-          image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-sre-frontend:latest
+          image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-ecr-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

@@ -15,7 +15,7 @@ resource "aws_subnet" "public_1" {
   tags = {
     Name                                      = "giants-subnet-public-1"
     "kubernetes.io/role/elb"                  = "1"
-    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
+    "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
 
@@ -28,7 +28,7 @@ resource "aws_subnet" "public_2" {
   tags = {
     Name                                      = "giants-subnet-public-2"
     "kubernetes.io/role/elb"                  = "1"
-    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
+    "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_subnet" "private_1" {
   tags = {
     Name                                      = "giants-subnet-private-1"
     "kubernetes.io/role/internal-elb"         = "1"
-    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
+    "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
 
@@ -84,7 +84,7 @@ resource "aws_subnet" "private_2" {
   tags = {
     Name                                      = "giants-subnet-private-2"
     "kubernetes.io/role/internal-elb"         = "1"
-    "kubernetes.io/cluster/sre-portfolio-eks" = "shared"
+    "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
 
