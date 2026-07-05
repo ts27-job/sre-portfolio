@@ -37,3 +37,19 @@ jobs:
         run: |
           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.FRONTEND_ECR_REPOSITORY }}:latest ./frontend
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.FRONTEND_ECR_REPOSITORY }}:latest
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Restart backend deployment
+        run: |
+          kubectl rollout restart deployment giants-backend -n giants-namespace
+          kubectl rollout status deployment giants-backend -n giants-namespace
+
+      - name: Restart frontend deployment
+        run: |
+          kubectl rollout restart deployment giants-frontend -n giants-namespace
+          kubectl rollout status deployment giants-frontend -n giants-namespace
