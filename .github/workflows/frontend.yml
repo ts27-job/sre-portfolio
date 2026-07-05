@@ -1,17 +1,20 @@
-name: Build and Push Docker Images
+name: Frontend CI/CD
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "frontend/**"
+      - "k8s/frontend/**"
+      - ".github/workflows/frontend.yml"
 
 env:
   AWS_REGION: ap-northeast-1
-  BACKEND_ECR_REPOSITORY: giants-ecr-backend
   FRONTEND_ECR_REPOSITORY: giants-ecr-frontend
 
 jobs:
-  build-and-push:
+  frontend-build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,11 +31,6 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push backend image
-        run: |
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest ./backend
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest
-
       - name: Build and push frontend image
         run: |
           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.FRONTEND_ECR_REPOSITORY }}:latest ./frontend
@@ -43,11 +41,6 @@ jobs:
           aws eks update-kubeconfig \
             --region ${{ env.AWS_REGION }} \
             --name ${{ secrets.EKS_CLUSTER_NAME }}
-
-      - name: Restart backend deployment
-        run: |
-          kubectl rollout restart deployment giants-backend -n giants-namespace
-          kubectl rollout status deployment giants-backend -n giants-namespace
 
       - name: Restart frontend deployment
         run: |
