@@ -1,5 +1,5 @@
 resource "aws_security_group" "app_sg" {
-  name        = "sre-portfolio-app-sg"
+  name        = "giants-sg-app"
   description = "Security group for application"
   vpc_id      = aws_vpc.main.id
 
@@ -35,6 +35,6 @@ resource "aws_security_group" "app_sg" {
   }
 
   tags = {
-    Name = "sre-portfolio-app-sg"
+    Name = "giants-sg-app"
   }
 }

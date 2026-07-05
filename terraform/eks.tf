@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "main" {
-  name     = "sre-portfolio-eks"
+  name     = "giants-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
@@ -20,13 +20,13 @@ resource "aws_eks_cluster" "main" {
   ]
 
   tags = {
-    Name = "sre-portfolio-eks"
+    Name = "giants-eks"
   }
 }
 
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
-  node_group_name = "sre-portfolio-node-group"
+  node_group_name = "giants-node-group"
   node_role_arn   = aws_iam_role.eks_node_role.arn
 
   subnet_ids = [
@@ -49,6 +49,6 @@ resource "aws_eks_node_group" "main" {
   ]
 
   tags = {
-    Name = "sre-portfolio-node-group"
+    Name = "giants-node-group"
   }
 }

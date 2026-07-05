@@ -1,5 +1,5 @@
 resource "aws_security_group" "rds" {
-  name        = "sre-portfolio-rds-sg"
+  name        = "giants-sg-rds"
   description = "Security group for RDS MySQL"
   vpc_id      = aws_vpc.main.id
 
@@ -22,12 +22,12 @@ resource "aws_security_group" "rds" {
   }
 
   tags = {
-    Name = "sre-portfolio-rds-sg"
+    Name = "giants-sg-rds"
   }
 }
 
 resource "aws_db_subnet_group" "main" {
-  name = "sre-portfolio-db-subnet-group"
+  name = "giants-db-subnet-group"
 
   subnet_ids = [
     aws_subnet.private_1.id,
@@ -35,12 +35,12 @@ resource "aws_db_subnet_group" "main" {
   ]
 
   tags = {
-    Name = "sre-portfolio-db-subnet-group"
+    Name = "giants-db-subnet-group"
   }
 }
 
 resource "aws_db_instance" "main" {
-  identifier = "sre-portfolio-mysql"
+  identifier = "giants-rds-mysql"
 
   engine         = "mysql"
   engine_version = "8.0"
@@ -49,7 +49,7 @@ resource "aws_db_instance" "main" {
   allocated_storage = 20
   storage_type      = "gp2"
 
-  db_name  = "giants_sre"
+  db_name  = "giants_rds"
   username = "admin"
   password = "ChangeMe1234!"
 
@@ -63,6 +63,6 @@ resource "aws_db_instance" "main" {
   deletion_protection = false
 
   tags = {
-    Name = "sre-portfolio-mysql"
+    Name = "giants-rds-mysql"
   }
 }

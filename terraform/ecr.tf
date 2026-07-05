@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "backend" {
-  name = "giants-sre-backend"
+  name = "giants-ecr-backend"
 
   image_scanning_configuration {
     scan_on_push = true
@@ -9,7 +9,7 @@ resource "aws_ecr_repository" "backend" {
 }
 
 resource "aws_ecr_repository" "frontend" {
-  name = "giants-sre-frontend"
+  name = "giants-ecr-frontend"
 
   image_scanning_configuration {
     scan_on_push = true
