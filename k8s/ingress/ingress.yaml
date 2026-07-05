@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sre-portfolio-ingress
-  namespace: giants-sre
+  name: giants-ingress
+  namespace: giants-namespace
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -19,7 +19,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-backend-service
+                name: giants-service-backend
                 port:
                   number: 80
 
@@ -27,7 +27,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-backend-service
+                name: giants-service-backend
                 port:
                   number: 80
 
@@ -35,7 +35,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-backend-service
+                name: giants-service-backend
                 port:
                   number: 80
 
@@ -43,7 +43,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-backend-service
+                name: giants-service-backend
                 port:
                   number: 80
 
@@ -51,7 +51,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-backend-service
+                name: giants-service-backend
                 port:
                   number: 80
 

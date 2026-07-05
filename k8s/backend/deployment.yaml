@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: giants-backend
-  namespace: giants-sre
+  namespace: giants-namespace
 spec:
   replicas: 2
   selector:
