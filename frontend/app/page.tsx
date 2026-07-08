@@ -25,14 +25,12 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [metricsResponse, alertsResponse] = await Promise.all([
-          fetch(`${apiBaseUrl}/team-metrics`),
-          fetch(`${apiBaseUrl}/alerts`),
+          fetch("/team-metrics"),
+          fetch("/alerts"),
         ]);
 
         if (!metricsResponse.ok || !alertsResponse.ok) {
@@ -52,7 +50,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, [apiBaseUrl]);
+  }, []);
 
   const isCriticalMetric = (metricName: string) => {
     return alerts.some(
