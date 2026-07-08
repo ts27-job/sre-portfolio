@@ -59,6 +59,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: giants-frontend-service
+                name: giants-service-frontend
                 port:
                   number: 3000
