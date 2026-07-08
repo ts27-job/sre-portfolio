@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: giants-deploytment-backend
+  name: giants-deployment-backend
   namespace: giants-namespace
 spec:
   replicas: 2
