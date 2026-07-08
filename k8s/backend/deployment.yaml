@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: giants-backend
+  name: giants-deploytment-backend
   namespace: giants-namespace
 spec:
   replicas: 2
@@ -12,14 +12,14 @@ spec:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: giants-backend
+      app: giants-app-backend
   template:
     metadata:
       labels:
-        app: giants-backend
+        app: giants-app-backend
     spec:
       containers:
-        - name: giants-backend
+        - name: giants-container-backend
           image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-ecr-backend:latest
           ports:
             - containerPort: 8000

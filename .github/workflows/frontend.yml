@@ -44,5 +44,5 @@ jobs:
 
       - name: Restart frontend deployment
         run: |
-          kubectl rollout restart deployment giants-frontend -n giants-namespace
-          kubectl rollout status deployment giants-frontend -n giants-namespace
+          kubectl rollout restart deployment giants-deploytment-frontend -n giants-namespace
+          kubectl rollout status deployment giants-deploytment-frontend -n giants-namespace

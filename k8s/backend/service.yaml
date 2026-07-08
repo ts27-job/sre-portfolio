@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: giants-backend
+    app: giants-app-backend
   ports:
     - port: 80
       targetPort: 8000

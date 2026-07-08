@@ -44,5 +44,5 @@ jobs:
 
       - name: Restart backend deployment
         run: |
-          kubectl rollout restart deployment giants-backend -n giants-namespace
-          kubectl rollout status deployment giants-backend -n giants-namespace
+          kubectl rollout restart deployment giants-deployment-backend -n giants-namespace
+          kubectl rollout status deployment giants-deployment-backend -n giants-namespace

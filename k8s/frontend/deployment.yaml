@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: giants-frontend
+  name: giants-deploytment-frontend
   namespace: giants-namespace
 spec:
   replicas: 2
@@ -12,18 +12,15 @@ spec:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: giants-frontend
+      app: giants-app-frontend
   template:
     metadata:
       labels:
-        app: giants-frontend
+        app: giants-app-frontend
     spec:
       containers:
-        - name: giants-frontend
+        - name: giants-container-frontend
           image: 711427856586.dkr.ecr.ap-northeast-1.amazonaws.com/giants-ecr-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          env:
-            - name: NEXT_PUBLIC_API_BASE_URL
-              value: "http://k8s-giantssr-sreportf-2d7a46bb7b-1433120804.ap-northeast-1.elb.amazonaws.com"
