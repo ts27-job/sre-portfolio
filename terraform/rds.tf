@@ -1,6 +1,5 @@
 resource "aws_security_group" "rds" {
   name        = "giants-sg-rds"
-  description = "Security group for RDS MySQL"
   vpc_id      = aws_vpc.main.id
 
   ingress {

@@ -69,8 +69,7 @@ resource "aws_iam_openid_connect_provider" "eks" {
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
-  name = "AWSLoadBalancerControllerIAMPolicy"
-
+  name = "giants-policy-load-balancer-controller"
   policy = file("${path.module}/iam_policy.json")
 }
 
@@ -111,7 +110,7 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role" {
 }
 
 resource "aws_iam_role" "aws_load_balancer_controller" {
-  name = "AmazonEKSLoadBalancerControllerRole"
+  name = "giants-role-load-balancer-controller"
 
   assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role.json
 }

@@ -9,7 +9,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 0
-      maxUnavailable: 1
+      maxUnavailable: 2
   selector:
     matchLabels:
       app: giants-app-frontend

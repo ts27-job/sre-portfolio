@@ -1,48 +1,54 @@
-# name: Backend CI/CD
+name: Backend CI/CD
 
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - "backend/**"
-#       - "k8s/backend/**"
-#       - ".github/workflows/backend.yml"
+run-name: "Backend Manual Deploy #${{ github.run_number }}"
 
-# env:
-#   AWS_REGION: ap-northeast-1
-#   BACKEND_ECR_REPOSITORY: giants-ecr-backend
+on:
+  workflow_dispatch:
 
-# jobs:
-#   backend-build-and-deploy:
-#     runs-on: ubuntu-latest
+env:
+  AWS_REGION: ap-northeast-1
+  BACKEND_ECR_REPOSITORY: giants-ecr-backend
 
-#     steps:
-#       - name: Checkout source code
-#         uses: actions/checkout@v4
+jobs:
+  backend-build-and-deploy:
+    name: Build and deploy backend
+    runs-on: ubuntu-latest
 
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws-region: ${{ env.AWS_REGION }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-#       - name: Login to Amazon ECR
-#         uses: aws-actions/amazon-ecr-login@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-#       - name: Build and push backend image
-#         run: |
-#           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest ./backend
-#           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
-#       - name: Update kubeconfig
-#         run: |
-#           aws eks update-kubeconfig \
-#             --region ${{ env.AWS_REGION }} \
-#             --name ${{ secrets.EKS_CLUSTER_NAME }}
+      - name: Build and push backend image
+        run: |
+          docker build \
+            -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest \
+            ./backend
 
-#       - name: Restart backend deployment
-#         run: |
-#           kubectl rollout restart deployment giants-deployment-backend -n giants-namespace
-#           kubectl rollout status deployment giants-deployment-backend -n giants-namespace
+          docker push \
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.BACKEND_ECR_REPOSITORY }}:latest
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Restart backend deployment
+        run: |
+          kubectl rollout restart \
+            deployment/giants-deployment-backend \
+            -n giants-namespace
+
+          kubectl rollout status \
+            deployment/giants-deployment-backend \
+            -n giants-namespace

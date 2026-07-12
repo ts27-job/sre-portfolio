@@ -1,6 +1,5 @@
 resource "aws_security_group" "app_sg" {
   name        = "giants-sg-app"
-  description = "Security group for application"
   vpc_id      = aws_vpc.main.id
 
   ingress {
