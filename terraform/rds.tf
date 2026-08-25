@@ -1,6 +1,6 @@
 resource "aws_security_group" "rds" {
-  name        = "giants-sg-rds"
-  vpc_id      = aws_vpc.main.id
+  name   = "giants-sg-rds"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     description = "Allow MySQL from EKS app security group"
@@ -49,8 +49,8 @@ resource "aws_db_instance" "main" {
   storage_type      = "gp2"
 
   db_name  = "giants_rds"
-  username = "admin"
-  password = "ChangeMe1234!"
+  username = "var.db_username"
+  password = "var.db_password"
 
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]

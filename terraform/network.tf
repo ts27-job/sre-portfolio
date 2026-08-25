@@ -13,8 +13,8 @@ resource "aws_subnet" "public_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                                      = "giants-subnet-public-1"
-    "kubernetes.io/role/elb"                  = "1"
+    Name                               = "giants-subnet-public-1"
+    "kubernetes.io/role/elb"           = "1"
     "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
@@ -26,8 +26,8 @@ resource "aws_subnet" "public_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                                      = "giants-subnet-public-2"
-    "kubernetes.io/role/elb"                  = "1"
+    Name                               = "giants-subnet-public-2"
+    "kubernetes.io/role/elb"           = "1"
     "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
@@ -70,8 +70,8 @@ resource "aws_subnet" "private_1" {
   availability_zone = "ap-northeast-1a"
 
   tags = {
-    Name                                      = "giants-subnet-private-1"
-    "kubernetes.io/role/internal-elb"         = "1"
+    Name                               = "giants-subnet-private-1"
+    "kubernetes.io/role/internal-elb"  = "1"
     "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }
@@ -82,8 +82,8 @@ resource "aws_subnet" "private_2" {
   availability_zone = "ap-northeast-1c"
 
   tags = {
-    Name                                      = "giants-subnet-private-2"
-    "kubernetes.io/role/internal-elb"         = "1"
+    Name                               = "giants-subnet-private-2"
+    "kubernetes.io/role/internal-elb"  = "1"
     "kubernetes.io/cluster/giants-eks" = "shared"
   }
 }

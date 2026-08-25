@@ -1,6 +1,6 @@
 resource "aws_security_group" "app_sg" {
-  name        = "giants-sg-app"
-  vpc_id      = aws_vpc.main.id
+  name   = "giants-sg-app"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     description = "HTTP"

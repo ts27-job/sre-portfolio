@@ -112,3 +112,22 @@ desktop.ini
 tmp/
 temp/
 *.tmp
+
+# ==============================
+# Terraform sensitive files
+# ==============================
+terraform/terraform.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/.terraform/
+
+# ==============================
+# Kubernetes secrets
+# ==============================
+k8s/config/secret.yaml
+
+# ==============================
+# Node.js
+# ==============================
+node_modules/
+.next/

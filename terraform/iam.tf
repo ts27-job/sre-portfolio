@@ -69,7 +69,7 @@ resource "aws_iam_openid_connect_provider" "eks" {
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
-  name = "giants-policy-load-balancer-controller"
+  name   = "giants-policy-load-balancer-controller"
   policy = file("${path.module}/iam_policy.json")
 }
 
