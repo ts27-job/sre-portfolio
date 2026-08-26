@@ -1,3 +1,4 @@
+#eks_cluster
 resource "aws_eks_cluster" "main" {
   name     = "giants-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
@@ -24,6 +25,8 @@ resource "aws_eks_cluster" "main" {
   }
 }
 
+
+#eks_nodegroup
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "giants-node-group"

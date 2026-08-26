@@ -1,3 +1,4 @@
+#iam_ekscluster
 resource "aws_iam_role" "eks_cluster_role" {
   name = "giants-role-eks-cluster"
 
@@ -20,6 +21,8 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
 
+
+#iam_eksnode
 resource "aws_iam_role" "eks_node_role" {
   name = "giants-role-eks-node"
 
@@ -52,25 +55,12 @@ resource "aws_iam_role_policy_attachment" "ecr_readonly_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-data "tls_certificate" "eks_oidc" {
-  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
-}
 
-resource "aws_iam_openid_connect_provider" "eks" {
-  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
+#iam_loadbalancer
+resource "aws_iam_role" "aws_load_balancer_controller" {
+  name = "giants-role-load-balancer-controller"
 
-  client_id_list = [
-    "sts.amazonaws.com"
-  ]
-
-  thumbprint_list = [
-    data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint
-  ]
-}
-
-resource "aws_iam_policy" "aws_load_balancer_controller" {
-  name   = "giants-policy-load-balancer-controller"
-  policy = file("${path.module}/iam_policy.json")
+  assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role.json
 }
 
 data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role" {
@@ -109,13 +99,32 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role" {
   }
 }
 
-resource "aws_iam_role" "aws_load_balancer_controller" {
-  name = "giants-role-load-balancer-controller"
-
-  assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role.json
+resource "aws_iam_policy" "aws_load_balancer_controller" {
+  name   = "giants-policy-load-balancer-controller"
+  policy = file("${path.module}/iam_policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller" {
   role       = aws_iam_role.aws_load_balancer_controller.name
   policy_arn = aws_iam_policy.aws_load_balancer_controller.arn
+}
+
+
+#oidc
+#EKSのOIDC Issuer URLを使ってTLS証明書情報を取得
+data "tls_certificate" "eks_oidc" {
+  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
+}
+
+#EKS OIDC Issuerを、AWS IAMが信頼するOIDC Providerとして登録する
+resource "aws_iam_openid_connect_provider" "eks" {
+  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
+
+  client_id_list = [
+    "sts.amazonaws.com"
+  ]
+
+  thumbprint_list = [
+    data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint
+  ]
 }

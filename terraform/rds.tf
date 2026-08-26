@@ -1,30 +1,4 @@
-resource "aws_security_group" "rds" {
-  name   = "giants-sg-rds"
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-    description = "Allow MySQL from EKS app security group"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-
-    security_groups = [
-      aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
-    ]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "giants-sg-rds"
-  }
-}
-
+#subnetgroup
 resource "aws_db_subnet_group" "main" {
   name = "giants-db-subnet-group"
 
@@ -38,6 +12,8 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
+
+#rds
 resource "aws_db_instance" "main" {
   identifier = "giants-rds-mysql"
 

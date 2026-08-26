@@ -1,7 +1,6 @@
 # ==============================
 # Python / FastAPI
 # ==============================
-
 **pycache**/
 *.py[cod]
 *$py.class
@@ -35,7 +34,6 @@ pip-log.txt
 # ==============================
 # Frontend / Next.js
 # ==============================
-
 frontend/node_modules/
 frontend/.next/
 frontend/out/
@@ -59,7 +57,6 @@ frontend/.yarn/*
 # ==============================
 # Environment variables / secrets
 # ==============================
-
 .env
 .env.*
 !.env.example
@@ -71,7 +68,6 @@ frontend/.yarn/*
 # ==============================
 # Terraform
 # ==============================
-
 .terraform/
 **/.terraform/
 *.tfstate
@@ -88,7 +84,6 @@ override.tf.json
 # ==============================
 # IDE / Editor
 # ==============================
-
 .vscode/
 .idea/
 *.swp
@@ -99,7 +94,6 @@ tempCodeRunnerFile.py
 # ==============================
 # OS generated files
 # ==============================
-
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -107,7 +101,6 @@ desktop.ini
 # ==============================
 # Local temporary files
 # ==============================
-
 .cache/
 tmp/
 temp/
