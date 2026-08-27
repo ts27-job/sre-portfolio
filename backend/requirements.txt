@@ -2,3 +2,5 @@ fastapi
 uvicorn
 sqlalchemy
 pymysql
+requests
+beautifulsoup4

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from database import engine
 from alert_logic import evaluate_rule
+from team_metrics_updater import update_team_metrics
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -36,6 +37,15 @@ def get_team_metrics():
             })
 
         return metrics
+
+@app.post("/team-metrics/refresh")
+def refresh_team_metrics():
+    update_team_metrics()
+
+    return {
+        "status": "ok",
+        "message": "Team metrics updated"
+    }
 
 @app.get("/alerts")
 def get_alerts():
@@ -97,46 +107,6 @@ def get_alerts():
         conn.commit()
 
     return alerts
-
-@app.get("/team-health")
-def get_team_health():
-    health = {
-        "batting": "Healthy",
-        "pitching": "Healthy",
-        "bullpen": "Healthy",
-        "overall": "Healthy"
-    }
-
-    with engine.connect() as conn:
-        result = conn.execute(
-            text("SELECT * FROM team_metrics")
-        )
-
-        for row in result:
-            metric_name = row.metric_name
-            metric_value = float(row.metric_value)
-
-            if metric_name == "team_ops" and metric_value < 0.70:
-                health["batting"] = "Warning"
-
-            if metric_name == "team_era" and metric_value > 4.00:
-                health["pitching"] = "Warning"
-
-            if metric_name == "bullpen_era" and metric_value > 4.50:
-                health["bullpen"] = "Critical"
-
-            if metric_name == "games_under_500" and metric_value >= 5:
-                health["overall"] = "Critical"
-
-            if metric_name == "losing_streak" and metric_value >= 3:
-                health["overall"] = "Warning"
-
-    if "Critical" in health.values():
-        health["overall"] = "Critical"
-    elif "Warning" in health.values():
-        health["overall"] = "Warning"
-
-    return health
 
 @app.get("/alert-rules")
 def get_alert_rules():
