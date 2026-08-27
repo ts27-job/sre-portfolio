@@ -12,7 +12,7 @@ type TeamMetric = {
 type Alert = {
   rule_name?: string;
   metric_name: string;
-  current_value: number;
+  metric_value: number;
   threshold: number;
   severity: string;
   status?: string;
@@ -160,7 +160,7 @@ export default function Home() {
               </p>
               <p className="mt-2">Severity: {alert.severity}</p>
               <p>Metric: {alert.metric_name}</p>
-              <p>Current Value: {alert.current_value}</p>
+              <p>Current Value: {alert.metric_value}</p>
               <p>Threshold: {alert.threshold}</p>
               <p>Status: {alert.status ?? 'Normal'}</p>
             </div>
