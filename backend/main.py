@@ -78,21 +78,6 @@ def get_alerts():
             message = f"{metric_name} {operator} {threshold}"
 
             if evaluate_rule(value, operator, threshold):
-                conn.execute(
-                    text("""
-                        INSERT INTO alert_history
-                        (metric_name, metric_value, severity, message, detected_at)
-                        VALUES
-                        (:metric_name, :metric_value, :severity, :message, NOW())
-                    """),
-                    {
-                        "metric_name": metric_name,
-                        "metric_value": value,
-                        "severity": severity,
-                        "message": message
-                    }
-                )
-
                 alerts.append({
                     "metric_name": metric_name,
                     "metric_value": value,
@@ -103,8 +88,6 @@ def get_alerts():
                     "status": "Triggered",
                     "is_triggered": True
                 })
-
-        conn.commit()
 
     return alerts
 
