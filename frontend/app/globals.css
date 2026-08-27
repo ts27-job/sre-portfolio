@@ -24,3 +24,179 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 年齢・ポジション分布 */
+
+.age-chart {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.legend-item::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+
+.legend-item.age-18::before,
+.bar-segment.age-18 {
+  background: #f59e0b;
+}
+
+.legend-item.age-21::before,
+.bar-segment.age-21 {
+  background: #3b82f6;
+}
+
+.legend-item.age-26::before,
+.bar-segment.age-26 {
+  background: #22c55e;
+}
+
+.legend-item.age-31::before,
+.bar-segment.age-31 {
+  background: #8b5cf6;
+}
+
+.legend-item.age-36::before,
+.bar-segment.age-36 {
+  background: #ef4444;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 60px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.chart-label {
+  font-weight: 600;
+}
+
+.chart-bar {
+  display: flex;
+  height: 34px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #eef1f5;
+}
+
+.bar-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.chart-total {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* 年齢・ポジション別 選手一覧 */
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table-wrapper th:first-child,
+.table-wrapper td:first-child {
+  width: 88px;
+  text-align: center;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  padding: 14px 16px;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-wrapper th:last-child,
+.table-wrapper td:last-child {
+  border-right: 0;
+}
+
+.table-wrapper tbody tr:last-child th,
+.table-wrapper tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-wrapper thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #111827;
+  color: #ffffff;
+  text-align: center;
+}
+
+.table-wrapper tbody th {
+  width: 88px;
+  background: #f9fafb;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.table-wrapper tbody tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.player-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.player-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.player-list span {
+  font-weight: 700;
+}
+
+.player-list small {
+  color: #6b7280;
+}
+
+.empty-cell {
+  display: block;
+  color: #9ca3af;
+  text-align: center;
+}
