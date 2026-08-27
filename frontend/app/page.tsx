@@ -52,6 +52,19 @@ export default function Home() {
     fetchData();
   }, []);
 
+    const metricLabels: Record<string, string> = {
+      team_avg: 'チーム打率',
+      team_obp: 'チーム出塁率',
+      team_slg: 'チーム長打率',
+      team_ops: 'チームOPS',
+      risp_avg: '得点圏打率',
+      team_era: 'チーム防御率',
+      starter_era: '先発防御率',
+      bullpen_era: '救援防御率',
+      qs_rate: 'QS率',
+      whip: 'WHIP',
+    };
+
   const isCriticalMetric = (metricName: string) => {
     return alerts.some(
       (alert) =>
@@ -86,26 +99,6 @@ export default function Home() {
     return 'border-gray-200 bg-white text-gray-800';
   };
 
-  const getAlertCardClass = (alert: Alert) => {
-    const isTriggered =
-      alert.is_triggered === true ||
-      alert.status === 'Triggered' ||
-      alert.status === 'ALERT';
-
-    if (!isTriggered) {
-      return 'border-gray-200 bg-white text-gray-800';
-    }
-
-    if (alert.severity === 'Critical') {
-      return 'border-red-400 bg-red-100 text-red-800';
-    }
-
-    if (alert.severity === 'Warning') {
-      return 'border-yellow-400 bg-yellow-100 text-yellow-800';
-    }
-
-    return 'border-gray-200 bg-white text-gray-800';
-  };
 
   if (loading) {
     return <main className="p-8">Loading...</main>;
@@ -134,35 +127,11 @@ export default function Home() {
                 metric.metric_name
               )}`}
             >
-              <p className="text-sm font-medium">{metric.metric_name}</p>
+              <p className="text-sm font-medium">
+                 {metricLabels[metric.metric_name] ?? metric.metric_name}
+              </p>
               <p className="mt-2 text-4xl font-bold">{metric.metric_value}</p>
               <p className="mt-4 text-xs">Updated: {metric.updated_at}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-          Current Alerts
-        </h2>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          {alerts.map((alert, index) => (
-            <div
-              key={index}
-              className={`rounded-lg border p-6 shadow ${getAlertCardClass(
-                alert
-              )}`}
-            >
-              <p className="text-lg font-bold">
-                {alert.rule_name ?? alert.metric_name}
-              </p>
-              <p className="mt-2">Severity: {alert.severity}</p>
-              <p>Metric: {alert.metric_name}</p>
-              <p>Current Value: {alert.metric_value}</p>
-              <p>Threshold: {alert.threshold}</p>
-              <p>Status: {alert.status ?? 'Normal'}</p>
             </div>
           ))}
         </div>
