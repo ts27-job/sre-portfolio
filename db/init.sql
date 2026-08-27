@@ -32,13 +32,16 @@ CREATE TABLE alert_rules (
 INSERT INTO alert_rules
 (metric_name, operator, threshold, severity)
 VALUES
+('team_avg', '<', 0.230, 'Warning'),
+('team_obp', '<', 0.300, 'Warning'),
+('team_slg', '<', 0.400, 'Warning'),
 ('team_ops', '<', 0.650, 'Warning'),
-('risp_avg', '<', 0.240, 'Warning'),
-('team_era', '>', 3.500, 'Warning'),
-('starter_era', '>', 3.500, 'Warning'),
-('bullpen_era', '>', 4.000, 'Critical'),
-('qs_rate', '<', 50.000, 'Warning'),
-('whip', '>', 1.300, 'Warning');
+('risp_avg', '<', 0.250, 'Warning'),
+('team_era', '>', 3.300, 'Warning'),
+('starter_era', '>', 3.300, 'Warning'),
+('bullpen_era', '>', 3.300, 'Critical'),
+('qs_rate', '<', 45.000, 'Warning'),
+('whip', '>', 1.200, 'Warning');
 
 CREATE TABLE alert_history (
     id INT PRIMARY KEY AUTO_INCREMENT,
