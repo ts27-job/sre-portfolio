@@ -67,7 +67,6 @@ def fetch_team_metrics():
             "先発防御率": "starter_era",
             "救援防御率": "bullpen_era",
             "QS率": "qs_rate",
-            "WHIP": "whip",
         },
     )
 

@@ -19,7 +19,6 @@ VALUES
 ('starter_era', 3.110, NOW()),
 ('bullpen_era', 2.660, NOW()),
 ('qs_rate', 51.300, NOW()),
-('whip', 1.180, NOW());
 
 CREATE TABLE alert_rules (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -40,8 +39,7 @@ VALUES
 ('team_era', '>', 3.300, 'Warning'),
 ('starter_era', '>', 3.300, 'Warning'),
 ('bullpen_era', '>', 3.300, 'Critical'),
-('qs_rate', '<', 45.000, 'Warning'),
-('whip', '>', 1.200, 'Warning');
+('qs_rate', '<', 45.000, 'Warning');
 
 CREATE TABLE alert_history (
     id INT PRIMARY KEY AUTO_INCREMENT,

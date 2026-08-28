@@ -251,7 +251,9 @@ export default function Home() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {teamMetrics.map((metric) => (
+          {teamMetrics
+            .filter((metric) => metric.metric_name !== "whip")
+            .map((metric) => (
             <div
               key={metric.id}
               className={`rounded-lg border p-6 shadow ${getMetricCardClass(
@@ -284,55 +286,6 @@ export default function Home() {
               </span>
             ))}
           </div>
-
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">年齢</th>
-                {positions.map((position) => (
-                  <th key={position} scope="col">
-                    {position}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {ageGroups.map((group) => (
-                <tr key={group.label}>
-                  <th scope="row">{group.label}</th>
-
-                  {positions.map((position) => {
-                    const matchedPlayers = playersWithAge.filter(
-                      (player) =>
-                        player.position === position &&
-                        player.age >= group.min &&
-                        player.age <= group.max,
-                    );
-
-                    return (
-                      <td key={position}>
-                        {matchedPlayers.length > 0 ? (
-                          <ul className="player-list">
-                            {matchedPlayers.map((player) => (
-                              <li key={player.name}>
-                                <span>{player.name}</span>
-                                <small>{player.age}歳</small>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <span className="empty-cell">—</span>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
 
           {positions.map((position) => {
             const positionPlayers = playersWithAge.filter(
@@ -368,13 +321,13 @@ export default function Home() {
                     );
                   })}
                 </div>
-
                 <div className="chart-total">{positionPlayers.length}人</div>
               </div>
             );
           })}
         </div>
-                <div className="table-wrapper">
+
+        <div className="table-wrapper">
           <table>
             <thead>
               <tr>
