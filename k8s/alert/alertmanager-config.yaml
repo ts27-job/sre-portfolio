@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: giants-alertmanager-config
+  namespace: giants-namespace
+spec:
+  route:
+    receiver: giants-email
+    matchers:
+      - name: severity
+        matchType: =~
+        value: "warning|critical"
+    groupBy:
+      - alertname
+      - component
+    groupWait: 10s
+    groupInterval: 5m
+    repeatInterval: 4h
+
+  receivers:
+    - name: giants-email
+      emailConfigs:
+        - to: toland.ts27@gmail.com
+          from: toland.ts27@gmail.com
+          smarthost: smtp.gmail.com:587
+          authUsername: toland.ts27@gmail.com
+          authPassword:
+            name: alertmanager-gmail-secret
+            key: smtp-password
+          requireTLS: true
+          sendResolved: true

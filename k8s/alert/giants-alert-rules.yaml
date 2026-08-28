@@ -1,0 +1,143 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: giants-alert-rules
+  namespace: observability
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: giants.infrastructure
+      rules:
+
+        # =========================
+        # Backend Deployment
+        # =========================
+        - alert: GiantsBackendDeploymentUnavailable
+          expr: |
+            kube_deployment_status_replicas_available{
+              namespace="giants-namespace",
+              deployment="giants-deployment-backend"
+            } < 1
+          for: 1m
+          labels:
+            severity: critical
+            component: backend
+          annotations:
+            summary: "Backend Deployment is unavailable"
+            description: "Backend Deployment has had no available replicas for more than 1 minute."
+
+        # =========================
+        # Backend Pod
+        # =========================
+        - alert: GiantsBackendPodUnavailable
+          expr: |
+            kube_pod_status_ready{
+              namespace="giants-namespace",
+              pod=~"giants-deployment-backend-.*",
+              condition="true"
+            } == 0
+          for: 1m
+          labels:
+            severity: critical
+            component: backend
+          annotations:
+            summary: "Backend Pod is unavailable"
+            description: "A Backend Pod has been NotReady for more than 1 minute."
+
+        # =========================
+        # Frontend Deployment
+        # =========================
+        - alert: GiantsFrontendDeploymentUnavailable
+          expr: |
+            kube_deployment_status_replicas_available{
+              namespace="giants-namespace",
+              deployment="giants-deployment-frontend"
+            } < 1
+          for: 1m
+          labels:
+            severity: critical
+            component: frontend
+          annotations:
+            summary: "Frontend Deployment is unavailable"
+            description: "Frontend Deployment has had no available replicas for more than 1 minute."
+
+        # =========================
+        # Frontend Pod
+        # =========================
+        - alert: GiantsFrontendPodUnavailable
+          expr: |
+            kube_pod_status_ready{
+              namespace="giants-namespace",
+              pod=~"giants-deployment-frontend-.*",
+              condition="true"
+            } == 0
+          for: 1m
+          labels:
+            severity: critical
+            component: frontend
+          annotations:
+            summary: "Frontend Pod is unavailable"
+            description: "A Frontend Pod has been NotReady for more than 1 minute."
+
+        # =========================
+        # CPU > 80% of request
+        # =========================
+        - alert: GiantsPodHighCPU
+          expr: |
+            (
+              sum by (pod) (
+                rate(container_cpu_usage_seconds_total{
+                  namespace="giants-namespace",
+                  pod=~"giants-deployment-(backend|frontend)-.*",
+                  container!="",
+                  container!="POD"
+                }[5m])
+              )
+              /
+              sum by (pod) (
+                kube_pod_container_resource_requests{
+                  namespace="giants-namespace",
+                  pod=~"giants-deployment-(backend|frontend)-.*",
+                  resource="cpu",
+                  unit="core"
+                }
+              )
+            ) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod CPU usage is high"
+            description: "Pod CPU usage has exceeded 80% of its requested CPU for more than 5 minutes."
+
+        # =========================
+        # Memory > 80% of request
+        # =========================
+        - alert: GiantsPodHighMemory
+          expr: |
+            (
+              sum by (pod) (
+                container_memory_working_set_bytes{
+                  namespace="giants-namespace",
+                  pod=~"giants-deployment-(backend|frontend)-.*",
+                  container!="",
+                  container!="POD"
+                }
+              )
+              /
+              sum by (pod) (
+                kube_pod_container_resource_limits{
+                  namespace="giants-namespace",
+                  pod=~"giants-deployment-(backend|frontend)-.*",
+                  resource="memory",
+                  unit="byte"
+                }
+              )
+            ) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod memory usage is high"
+            description: "Pod memory usage has exceeded 80% of its memory limit for more than 5 minutes."
