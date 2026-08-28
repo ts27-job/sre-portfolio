@@ -18,7 +18,7 @@ VALUES
 ('team_era', 2.940, NOW()),
 ('starter_era', 3.110, NOW()),
 ('bullpen_era', 2.660, NOW()),
-('qs_rate', 51.300, NOW()),
+('qs_rate', 51.300, NOW());
 
 CREATE TABLE alert_rules (
     id INT PRIMARY KEY AUTO_INCREMENT,
