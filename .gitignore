@@ -124,3 +124,9 @@ k8s/config/secret.yaml
 # ==============================
 node_modules/
 .next/
+
+# ==============================
+# secret
+# ==============================
+k8s/manifests/secret.yaml
+k8s/alert/alertmanagersecret.yaml
