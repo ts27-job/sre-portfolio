@@ -111,12 +111,10 @@ resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller" {
 
 
 #oidc
-#EKSのOIDC Issuer URLを使ってTLS証明書情報を取得
 data "tls_certificate" "eks_oidc" {
   url = aws_eks_cluster.main.identity[0].oidc[0].issuer
 }
 
-#EKS OIDC Issuerを、AWS IAMが信頼するOIDC Providerとして登録する
 resource "aws_iam_openid_connect_provider" "eks" {
   url = aws_eks_cluster.main.identity[0].oidc[0].issuer
 
