@@ -190,7 +190,6 @@ export default function Home() {
       starter_era: '先発防御率',
       bullpen_era: '救援防御率',
       qs_rate: 'QS率',
-      whip: 'WHIP',
     };
 
   const isCriticalMetric = (metricName: string) => {
@@ -374,6 +373,54 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+                <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">年齢</th>
+                {positions.map((position) => (
+                  <th key={position} scope="col">
+                    {position}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody>
+              {ageGroups.map((group) => (
+                <tr key={group.label}>
+                  <th scope="row">{group.label}</th>
+
+                  {positions.map((position) => {
+                    const matchedPlayers = playersWithAge.filter(
+                      (player) =>
+                        player.position === position &&
+                        player.age >= group.min &&
+                        player.age <= group.max,
+                    );
+
+                    return (
+                      <td key={position}>
+                        {matchedPlayers.length > 0 ? (
+                          <ul className="player-list">
+                            {matchedPlayers.map((player) => (
+                              <li key={player.name}>
+                                <span>{player.name}</span>
+                                <small>{player.age}歳</small>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <span className="empty-cell">—</span>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </main>
